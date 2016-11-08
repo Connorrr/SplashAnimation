@@ -12,16 +12,6 @@ class TopRightPieceLayer: CAShapeLayer {
     
     var animationDuration = 0.0
     
-    private var firstPoint = CGPointZero
-    private var secondPoint = CGPointZero
-    private var thirdPoint = CGPointZero
-    private var fourthPoint = CGPointZero
-    private var fifthPoint = CGPointZero
-    private var sixthPoint = CGPointZero
-    private var seventhPoint = CGPointZero
-    private var eighthPoint = CGPointZero
-    private var ninthPoint = CGPointZero
-    
     private var splines = [[CGPoint]]()
     
     enum positions{
@@ -32,7 +22,7 @@ class TopRightPieceLayer: CAShapeLayer {
         super.init()
         fillColor = Colours.red.CGColor
         strokeColor = Colours.red.CGColor
-        lineWidth = 7.0
+        lineWidth = 1.0
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,26 +30,91 @@ class TopRightPieceLayer: CAShapeLayer {
     }
     
     func initPoints(position: positions, width: CGFloat, height: CGFloat){
+        let centerPoint = CGPoint(x: width/2, y: height/2)
         switch position {
         case .top:
             
-            //  First Cubic Spline
-            firstPoint = CGPoint(x: 0, y: 0)
-            secondPoint = CGPoint(x: width, y: 0)
-            thirdPoint = CGPoint(x: width/2, y: 0)
-            
-            //  Second "Triangle"
-            fourthPoint = CGPoint(x: width/(4*2), y: 0)
-            fifthPoint = CGPoint(x: width - width/(4*2), y: 0)
-            sixthPoint = CGPoint(x: width/2, y: height/2)   //  Center of View
-            
-            //  Third "Triangle"
-            seventhPoint = CGPoint(x: width/(4*8), y: 0)
-            eighthPoint = CGPoint(x: width - width/(4*8), y: 0)
-            ninthPoint = CGPoint(x: width/2, y: height/2)   //  Center of View
+            print("You wanna top slice?  On the way!")
             
         case .topRight:
-            print("You wanna topRight slice?  On the way!")
+            let refAngle = CGFloat(M_PI) - atan((height/2)/(width/2))
+            let refAngle2 = CGFloat(M_PI) - atan((height/2)/(width/2))/2
+            let refAngle3 = CGFloat(M_PI) - atan((height/2)/(width/2))/8
+           
+            //  Starting Points (Boarder Line)
+            var firstPoint = CGPoint(x: width, y: 0)        //  Top
+            var secondPoint = CGPoint(x: width, y: height/2)   //  Bottom
+            var thirdPoint = CGPoint(x: width, y: height/4)  //  Middle
+            var fourthPoint = CGPointZero
+            let first = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(first)
+            
+            //  First Triangle
+            firstPoint = CGPoint(x: width, y: 0)            //  Top
+            secondPoint = CGPoint(x: width, y: height/2)    //  Bottom
+            thirdPoint = getRadiusPoint(refAngle, radius: height/4, width: width, height: height)
+            fourthPoint = CGPointZero
+            let second = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(second)
+            
+            //  third Shape Cubic Spline (Top) (b)
+            firstPoint = CGPoint(x: width, y: 0)
+            secondPoint = CGPoint(x: width/2, y: height/8)
+            thirdPoint = getRadiusPoint(refAngle, radius: 3*height/8, width: width, height: height)
+            fourthPoint = centerPoint
+            let third = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(third)
+            
+            //  third Shape Cubic Spline (Bottom) (a)
+            firstPoint = CGPoint(x: width, y: height/2)
+            secondPoint = CGPoint(x: width/2, y: 3*height/8)
+            thirdPoint = getRadiusPoint(refAngle, radius: height/8, width: width, height: height)
+            fourthPoint = centerPoint
+            let fourth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(fourth)
+            
+            //  fourth Shape Cubic Splines (Top) (d)
+            firstPoint = CGPoint(x: width, y: height/4)
+            secondPoint = CGPoint(x: width/2, y: height/8)
+            thirdPoint = getRadiusPoint(refAngle3, radius: 3*height/8, width: width, height: height)
+            fourthPoint = centerPoint
+            let fifth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(fifth)
+            
+            //  fourth Shape Cubic Splines (Bottom) (c)
+            firstPoint = CGPoint(x: width, y: height/4)
+            secondPoint = getRadiusPoint(refAngle, radius: height/8, width: width, height: height)
+            thirdPoint = secondPoint
+            fourthPoint = centerPoint
+            let sixth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(sixth)
+            
+            //  fifth Shape Cubic Splines (Top) (f)
+            firstPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
+            secondPoint = CGPoint(x: width/4, y: height/2)
+            thirdPoint = secondPoint
+            fourthPoint = centerPoint
+            let seventh = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            dump(seventh)
+            splines.append(seventh)
+            
+            //  fifth Shape Cubic Splines (Bottom) (e)
+            firstPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
+            secondPoint = getRadiusPoint(CGFloat(M_PI*3/8), radius: width/8, width: width, height: height)
+            thirdPoint = secondPoint
+            fourthPoint = centerPoint
+            let eighth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            dump(eighth)
+            splines.append(eighth)
+            
+            //  sixth Shape Arc
+            firstPoint = CGPoint(x: width/4, y: height/2)
+            secondPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
+            thirdPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
+            fourthPoint = centerPoint
+            let ninth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(ninth)
+            
         case .bottomRight:
             print("You wanna bottomRight slice?  On the way!")
         case .bottom:
@@ -71,53 +126,64 @@ class TopRightPieceLayer: CAShapeLayer {
         }
     }
     
+    func getRadiusPoint(theta: CGFloat, radius: CGFloat, width: CGFloat, height: CGFloat) -> CGPoint{
+        let point = CGPoint(x: cos(theta)*radius + width/2, y: height/2 - sin(theta)*radius)
+        return point
+    }
+    
     func startingPath(width: CGFloat, height: CGFloat) -> UIBezierPath{
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: width, y: 0.0))
-        path.addLineToPoint(CGPoint(x: width, y: height/2))
-        path.addLineToPoint(CGPoint(x: width, y: height/4))
+        path.moveToPoint(splines[0][0])
+        path.addLineToPoint(splines[0][1])
+        path.addLineToPoint(splines[0][2])
         path.closePath()
         return path
     }
     
     func secondPath(width: CGFloat, height: CGFloat) -> UIBezierPath{
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: width, y: height/8))
-        path.addLineToPoint(CGPoint(x: width, y: height/4))
-        path.addQuadCurveToPoint(CGPoint(x: width/2, y: height/2), controlPoint: CGPoint(x: (width*3)/4, y: (height*3/8)))
-        path.addQuadCurveToPoint(CGPoint(x: width, y: height/8), controlPoint: CGPoint(x: (width*3)/4, y: (height/8)))
+        path.moveToPoint(splines[1][0])
+        path.addLineToPoint(splines[1][1])
+        path.addLineToPoint(splines[1][2])
         path.closePath()
         return path
     }
     
     func thirdPath(width: CGFloat, height: CGFloat) -> UIBezierPath{
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: width, y: height/4))
-        path.addLineToPoint(CGPoint(x: width, y: height/4))
-        path.addQuadCurveToPoint(CGPoint(x: width/2, y: height/2), controlPoint: CGPoint(x: width*3/4, y: height*15/32))
-        path.addQuadCurveToPoint(CGPoint(x: width, y: height/4), controlPoint: CGPoint(x: (width*5)/8, y: height/4))
+        path.moveToPoint(splines[2][0])     // Top
+        path.addLineToPoint(splines[3][0])  //  Bottom
+        path.addCurveToPoint(splines[3][3], controlPoint1: splines[3][1], controlPoint2: splines[3][2]) // Bottom Curve
+        path.addCurveToPoint(splines[2][0], controlPoint1: splines[2][2], controlPoint2: splines[2][1]) // Top  Curve
         path.closePath()
         return path
     }
     
-    func fourthPath(width: CGFloat, height: CGFloat) -> UIBezierPath {
+    func fourthPath(width: CGFloat, height: CGFloat) -> UIBezierPath{
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: width*3/4, y: height*7/16))
-        path.addLineToPoint(CGPoint(x: width*3/4, y: height*7/16))
-        path.addQuadCurveToPoint(CGPoint(x: width/2, y: height/2), controlPoint: CGPoint(x: width*23/32, y: height*31/64))
-        path.addQuadCurveToPoint(CGPoint(x: width*3/4, y: height*7/16), controlPoint: CGPoint(x: width*5/8, y: height*5/16))
+        path.moveToPoint(splines[4][0])     // Top
+        path.addLineToPoint(splines[5][0])  //  Bottom
+        path.addCurveToPoint(splines[5][3], controlPoint1: splines[5][1], controlPoint2: splines[5][2]) // Bottom Curve
+        path.addCurveToPoint(splines[4][0], controlPoint1: splines[4][2], controlPoint2: splines[4][1]) // Top  Curve
+        path.closePath()
+        return path
+    }
+    
+    func fifthPath(width: CGFloat, height: CGFloat) -> UIBezierPath{
+        let path = UIBezierPath()
+        path.moveToPoint(splines[6][0])     // Top
+        path.addLineToPoint(splines[7][0])  //  Bottom
+        path.addCurveToPoint(splines[7][3], controlPoint1: splines[7][1], controlPoint2: splines[7][2]) // Bottom Curve
+        path.addCurveToPoint(splines[6][0], controlPoint1: splines[6][2], controlPoint2: splines[6][1]) // Top  Curve
         path.closePath()
         return path
     }
 
-    func fifthPath(width: CGFloat, height: CGFloat) -> UIBezierPath{
-        let theta = atan((height/2)/(width/2))      //angle
-        let theta2 = theta/2
-        let radius = width/4
+    func sixthPath(width: CGFloat, height: CGFloat) -> UIBezierPath{
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: cos(theta)*radius + width/2, y: height/2 - sin(theta)*radius))
-        path.addQuadCurveToPoint(CGPoint(x: (width/2)+radius, y: height/2), controlPoint: CGPoint(x: cos(theta2)*radius + width/2, y: height/2 - sin(theta2)*radius))
-        path.addLineToPoint(CGPoint(x: width/2, y: height/2))
+        path.moveToPoint(splines[8][0])
+        path.addQuadCurveToPoint(splines[8][2], controlPoint: splines[8][1])
+        path.addLineToPoint(splines[8][3])
         path.closePath()
         return path
     }
@@ -130,14 +196,16 @@ class TopRightPieceLayer: CAShapeLayer {
         let path3 = thirdPath(width, height: height).CGPath
         let path4 = fourthPath(width, height: height).CGPath
         let path5 = fifthPath(width, height: height).CGPath
+        let path6 = sixthPath(width, height: height).CGPath
         
         //  Animation Durations
-        let d1 = 0.5
-        let d2 = 0.4
-        let d3 = 0.7
-        let d4 = 0.4
+        let d1 = 0.3
+        let d2 = 0.3
+        let d3 = 0.3
+        let d4 = 0.3
+        let d5 = 0.4
         
-        animationDuration = d1 + d2 + d3 + d4
+        animationDuration = d1 + d2 + d3 + d5
         
         let startAnimation : CABasicAnimation = CABasicAnimation(keyPath: "path")
         startAnimation.fromValue = path1
@@ -163,9 +231,15 @@ class TopRightPieceLayer: CAShapeLayer {
         fourthAnimation.beginTime = thirdAnimation.beginTime + thirdAnimation.duration
         fourthAnimation.duration = d4
         
+        let fifthAnimation : CABasicAnimation = CABasicAnimation(keyPath: "path")
+        fifthAnimation.fromValue = path5
+        fifthAnimation.toValue = path6
+        fifthAnimation.beginTime = fourthAnimation.beginTime + fourthAnimation.duration
+        fifthAnimation.duration = d5
+        
         let shrinkAnimationGroup : CAAnimationGroup = CAAnimationGroup()
-        shrinkAnimationGroup.animations = [startAnimation, secondAnimation, thirdAnimation, fourthAnimation]
-        shrinkAnimationGroup.duration = fourthAnimation.beginTime + fourthAnimation.duration
+        shrinkAnimationGroup.animations = [startAnimation, secondAnimation, thirdAnimation, fourthAnimation, fifthAnimation]
+        shrinkAnimationGroup.duration = fifthAnimation.beginTime + fifthAnimation.duration
         shrinkAnimationGroup.fillMode = kCAFillModeForwards
         shrinkAnimationGroup.removedOnCompletion = false
         addAnimation(shrinkAnimationGroup, forKey: nil)
