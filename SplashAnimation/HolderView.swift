@@ -21,6 +21,7 @@ class HolderView: UIView {
     let topLeftPiece = Slice()
     let bottomLeftPiece = Slice()
     let bottomRightPiece = Slice()
+    let bottomPiece = Slice()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,11 +38,13 @@ class HolderView: UIView {
         layer.addSublayer(topLeftPiece)
         layer.addSublayer(bottomLeftPiece)
         layer.addSublayer(bottomRightPiece)
+        layer.addSublayer(bottomPiece)
         topPiece.animate(Slice.positions.top, width: frame.size.width, height: frame.size.height)
         topRightPiece.animate(Slice.positions.topRight, width: frame.size.width, height: frame.size.height)
         topLeftPiece.animate(Slice.positions.topLeft, width: frame.size.width, height: frame.size.height)
         bottomLeftPiece.animate(Slice.positions.bottomLeft, width: frame.size.width, height: frame.size.height)
         bottomRightPiece.animate(Slice.positions.bottomRight, width: frame.size.width, height: frame.size.height)
+        bottomPiece.animate(Slice.positions.bottom, width: frame.size.width, height: frame.size.height)
         NSTimer.scheduledTimerWithTimeInterval(topRightPiece.animationDuration, target: self, selector: #selector(self.endSplash), userInfo: nil, repeats: false)
     }
     
