@@ -352,7 +352,7 @@ class Slice: CAShapeLayer {
             
             //  sixth Shape Arc
             firstPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
-            secondPoint = CGPoint(x: width/2, y: (height/2)+(width/4))
+            secondPoint = getRadiusPoint(CGFloat(M_PI*3/2), radius: width/4, width: width, height: height)
             thirdPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
             fourthPoint = centerPoint
             let ninth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
