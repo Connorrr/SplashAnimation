@@ -16,6 +16,7 @@ class HolderView: UIView {
     
     weak var delegate:HolderViewDelegate?
     
+    let topPiece = Slice()
     let topRightPiece = Slice()
     let topLeftPiece = Slice()
     let bottomLeftPiece = Slice()
@@ -31,10 +32,12 @@ class HolderView: UIView {
     }
     
     func addPieces() {
+        layer.addSublayer(topPiece)
         layer.addSublayer(topRightPiece)
         layer.addSublayer(topLeftPiece)
         layer.addSublayer(bottomLeftPiece)
         layer.addSublayer(bottomRightPiece)
+        topPiece.animate(Slice.positions.top, width: frame.size.width, height: frame.size.height)
         topRightPiece.animate(Slice.positions.topRight, width: frame.size.width, height: frame.size.height)
         topLeftPiece.animate(Slice.positions.topLeft, width: frame.size.width, height: frame.size.height)
         bottomLeftPiece.animate(Slice.positions.bottomLeft, width: frame.size.width, height: frame.size.height)
