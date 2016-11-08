@@ -98,7 +98,6 @@ class Slice: CAShapeLayer {
             thirdPoint = secondPoint
             fourthPoint = centerPoint
             let seventh = [firstPoint, secondPoint, thirdPoint, fourthPoint]
-            dump(seventh)
             splines.append(seventh)
             
             //  fifth Shape Cubic Splines (Bottom) (e)
@@ -107,7 +106,6 @@ class Slice: CAShapeLayer {
             thirdPoint = secondPoint
             fourthPoint = centerPoint
             let eighth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
-            dump(eighth)
             splines.append(eighth)
             
             //  sixth Shape Arc
@@ -119,10 +117,89 @@ class Slice: CAShapeLayer {
             splines.append(ninth)
             
         case .bottomRight:
-            print("You wanna bottomRight slice?  On the way!")
+            
+            fillColor = Colours.mustard.CGColor
+            strokeColor = Colours.mustard.CGColor
+            
+            let refAngle = atan((height/2)/(width/2))
+            let refAngle2 = CGFloat(M_PI) - atan((height/2)/(width/2))
+            
+            //  Starting Points (Boarder Line)
+            var firstPoint = CGPoint(x: width, y: height)        //  Top
+            var secondPoint = CGPoint(x: width, y: height/2)   //  Bottom
+            var thirdPoint = CGPoint(x: width, y: height*3/4)  //  Middle
+            var fourthPoint = CGPointZero
+            let first = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(first)
+            
+            //  First Triangle
+            firstPoint = CGPoint(x: width, y: height)            //  Top
+            secondPoint = CGPoint(x: width, y: height/2)    //  Bottom
+            thirdPoint = CGPoint(x: width*3/4, y: height/2)
+            fourthPoint = CGPointZero
+            let second = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(second)
+            
+            //  third Shape Cubic Spline (Top) (b)
+            firstPoint = CGPoint(x: width, y: height)
+            secondPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
+            thirdPoint = secondPoint
+            fourthPoint = secondPoint
+            let third = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(third)
+            
+            //  third Shape Cubic Spline (Bottom) (a)
+            firstPoint = CGPoint(x: width, y: height/2)
+            secondPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
+            thirdPoint = secondPoint
+            fourthPoint = secondPoint
+            let fourth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(fourth)
+            
+            //  fourth Shape Cubic Splines (Top) (d)
+            firstPoint = CGPoint(x: width, y: height*3/4)
+            secondPoint = centerPoint
+            thirdPoint = secondPoint
+            fourthPoint = centerPoint
+            let fifth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(fifth)
+            
+            //  fourth Shape Cubic Splines (Bottom) (c)
+            firstPoint = CGPoint(x: width, y: height*3/4)
+            secondPoint = getRadiusPoint(refAngle, radius: width*3/8, width: width, height: height)
+            thirdPoint = getRadiusPoint(refAngle2, radius: width/8, width: width, height: height)
+            fourthPoint = centerPoint
+            let sixth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(sixth)
+            
+            //  fifth Shape Cubic Splines (Top) (f)
+            firstPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
+            secondPoint = getRadiusPoint(refAngle, radius: width/8, width: width, height: height)
+            thirdPoint = secondPoint
+            fourthPoint = centerPoint
+            let seventh = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(seventh)
+            
+            //  fifth Shape Cubic Splines (Bottom) (e)
+            firstPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
+            secondPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
+            thirdPoint = secondPoint
+            fourthPoint = centerPoint
+            let eighth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(eighth)
+            
+            //  sixth Shape Arc
+            firstPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
+            secondPoint = CGPoint(x: width/2, y: (height/2)-(width/4))
+            thirdPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
+            fourthPoint = centerPoint
+            let ninth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(ninth)
+            
         case .bottom:
             print("You wanna bottom slice?  On the way!")
         case .bottomLeft:
+            
             fillColor = Colours.purple.CGColor
             strokeColor = Colours.purple.CGColor
             
@@ -184,7 +261,6 @@ class Slice: CAShapeLayer {
             thirdPoint = secondPoint
             fourthPoint = centerPoint
             let seventh = [firstPoint, secondPoint, thirdPoint, fourthPoint]
-            dump(seventh)
             splines.append(seventh)
             
             //  fifth Shape Cubic Splines (Bottom) (e)
@@ -193,7 +269,6 @@ class Slice: CAShapeLayer {
             thirdPoint = secondPoint
             fourthPoint = centerPoint
             let eighth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
-            dump(eighth)
             splines.append(eighth)
             
             //  sixth Shape Arc
@@ -204,6 +279,7 @@ class Slice: CAShapeLayer {
             let ninth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
             splines.append(ninth)
         case .topLeft:
+            
             fillColor = Colours.blue.CGColor
             strokeColor = Colours.blue.CGColor
             
@@ -244,7 +320,7 @@ class Slice: CAShapeLayer {
             
             //  fourth Shape Cubic Splines (Top) (d)
             firstPoint = CGPoint(x: 0, y: height/4)
-            secondPoint = getRadiusPoint(refAngle, radius: width/8, width: width, height: height)
+            secondPoint = centerPoint
             thirdPoint = secondPoint
             fourthPoint = centerPoint
             let fifth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
@@ -253,32 +329,30 @@ class Slice: CAShapeLayer {
             //  fourth Shape Cubic Splines (Bottom) (c)
             firstPoint = CGPoint(x: 0, y: height/4)
             secondPoint = getRadiusPoint(refAngle, radius: width*3/8, width: width, height: height)
-            thirdPoint = secondPoint        //  TODO:  Check that this looks swell
+            thirdPoint = getRadiusPoint(refAngle2, radius: width/8, width: width, height: height)
             fourthPoint = centerPoint
             let sixth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
             splines.append(sixth)
             
             //  fifth Shape Cubic Splines (Top) (f)
-            firstPoint = getRadiusPoint(refAngle, radius: width*3/8, width: width, height: height)
+            firstPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
             secondPoint = getRadiusPoint(refAngle, radius: width/8, width: width, height: height)
             thirdPoint = secondPoint
             fourthPoint = centerPoint
             let seventh = [firstPoint, secondPoint, thirdPoint, fourthPoint]
-            dump(seventh)
             splines.append(seventh)
             
             //  fifth Shape Cubic Splines (Bottom) (e)
-            firstPoint = getRadiusPoint(refAngle, radius: width*3/8, width: width, height: height)
+            firstPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
             secondPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
             thirdPoint = secondPoint
             fourthPoint = centerPoint
             let eighth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
-            dump(eighth)
             splines.append(eighth)
             
             //  sixth Shape Arc
             firstPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
-            secondPoint = CGPoint(x: width/2, y: 3*height/4)
+            secondPoint = CGPoint(x: width/2, y: (height/2)+(width/4))
             thirdPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
             fourthPoint = centerPoint
             let ninth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
