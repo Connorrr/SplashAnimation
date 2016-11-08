@@ -308,7 +308,7 @@ class Slice: CAShapeLayer {
             splines.append(third)
             
             //  third Shape Cubic Spline (Bottom) (3)
-            firstPoint = CGPoint(x: 0, y: 0)
+            firstPoint = CGPoint(x: 0, y: height)
             secondPoint = CGPoint(x: width*3/4, y: height/2)
             thirdPoint = secondPoint
             fourthPoint = secondPoint
@@ -348,9 +348,9 @@ class Slice: CAShapeLayer {
             splines.append(eighth)
             
             //  sixth Shape Arc
-            firstPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
+            firstPoint = CGPoint(x: width*3/4, y: height/2)
             secondPoint = getRadiusPoint(refAngle3, radius: width/4, width: width, height: height)
-            thirdPoint = CGPoint(x: width*3/4, y: height/2)
+            thirdPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
             fourthPoint = centerPoint
             let ninth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
             splines.append(ninth)
