@@ -10,13 +10,9 @@ import UIKit
 
 class OvalLayer: CAShapeLayer {
     
-    let animationDuration: CFTimeInterval = 0.3
-    var width: CGFloat
-    var height: CGFloat
+    let animationDuration: CFTimeInterval = 0.4
     
-    init(width: CGFloat, height: CGFloat) {
-        self.width = width
-        self.height = height
+    override init() {
         super.init()
         fillColor = Colours.white.CGColor
         path = ovalPathSmall.CGPath
@@ -27,11 +23,11 @@ class OvalLayer: CAShapeLayer {
     }
     
     var ovalPathSmall: UIBezierPath {
-        return UIBezierPath(ovalInRect: CGRect(x: 50.0, y: 50.0, width: 0.0, height: 0.0))
+        return UIBezierPath(ovalInRect: CGRect(x: frame.width/2, y: frame.height/2, width: 0.0, height: 0.0))
     }
     
     var ovalPathLarge: UIBezierPath {
-        return UIBezierPath(ovalInRect: CGRect(x: 2.5, y: 17.5, width: 95.0, height: 95.0))
+        return UIBezierPath(ovalInRect: CGRect(x: frame.width/4, y: (frame.height/2)-frame.width/4, width: frame.width/2, height: frame.width/2))
     }
     
     var ovalPathSquishVertical: UIBezierPath {

@@ -32,6 +32,23 @@ class ViewController: UIViewController, HolderViewDelegate {
         holderView.addPieces()
     }
     
+    func animateLabel() {
+        
+        let letter = UILabel(frame: view.frame)
+        letter.textColor = Colours.blue
+        letter.font = UIFont(name: "HelveticaNeue-Thin", size: 100)
+        letter.textAlignment = .Center
+        letter.text = "dC"
+        letter.transform = CGAffineTransformScale(letter.transform, 0.25, 0.25)
+        view.addSubview(letter)
+        
+        UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: ({
+            letter.transform = CGAffineTransformScale(letter.transform, 4.0, 4.0)
+        }), completion: ({ finished in
+            self.addButton()
+        }))
+    }
+    
     func addButton() {
         let button = UIButton()
         button.frame = CGRectMake(0.0, 0.0, view.bounds.width, view.bounds.height)

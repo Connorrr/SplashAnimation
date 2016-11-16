@@ -9,7 +9,7 @@
 import UIKit
 
 protocol HolderViewDelegate:class {
-    func addButton()
+    func animateLabel()
 }
 
 class HolderView: UIView {
@@ -23,10 +23,9 @@ class HolderView: UIView {
     let bottomRightPiece = Slice()
     let bottomPiece = Slice()
     
-    var oval: OvalLayer
+    var ovalLayer = OvalLayer()
     
     override init(frame: CGRect) {
-        oval = OvalLayer(width: frame.width, height: frame.height)
         super.init(frame: frame)
         backgroundColor = Colours.clear
     }
@@ -68,13 +67,14 @@ class HolderView: UIView {
     }
     func stopRotating() {
         let kAnimationKey = "rotation"
-        layer.addSublayer(oval)
+        ovalLayer.frame = self.frame
+        layer.addSublayer(ovalLayer)
         
         if self.layer.animationForKey(kAnimationKey) != nil {
             self.layer.removeAnimationForKey(kAnimationKey)
         }
         
-        oval.expand()
+        ovalLayer.expand()
         topPiece.openAnimation(frame.size.width, height: frame.size.height)
         topLeftPiece.openAnimation(frame.size.width, height: frame.size.height)
         bottomLeftPiece.openAnimation(frame.size.width, height: frame.size.height)
@@ -82,10 +82,10 @@ class HolderView: UIView {
         bottomRightPiece.openAnimation(frame.size.width, height: frame.size.height)
         topRightPiece.openAnimation(frame.size.width, height: frame.size.height)
         
-        NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(self.endSplash), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: #selector(self.endSplash), userInfo: nil, repeats: false)
     }
     
     func endSplash(){
-        delegate?.addButton()
+        delegate?.animateLabel()
     }
 }
