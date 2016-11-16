@@ -23,13 +23,16 @@ class HolderView: UIView {
     let bottomRightPiece = Slice()
     let bottomPiece = Slice()
     
+    var oval: OvalLayer
+    
     override init(frame: CGRect) {
+        oval = OvalLayer(width: frame.width, height: frame.height)
         super.init(frame: frame)
         backgroundColor = Colours.clear
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func addPieces() {
@@ -53,23 +56,33 @@ class HolderView: UIView {
         
         if self.layer.animationForKey(kAnimationKey) == nil {
             let animate = CABasicAnimation(keyPath: "transform.rotation")
-            animate.duration = 0.7
-            animate.repeatCount = Float.infinity
+            animate.duration = 0.9
+            animate.repeatCount = 3
             animate.fromValue = 0.0
             animate.toValue = Float(M_PI * -2.0)
+            animate.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
             self.layer.addAnimation(animate, forKey: kAnimationKey)
         }
         
-        NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(self.stopRotating), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(0.9*3, target: self, selector: #selector(self.stopRotating), userInfo: nil, repeats: false)
     }
     func stopRotating() {
         let kAnimationKey = "rotation"
+        layer.addSublayer(oval)
         
         if self.layer.animationForKey(kAnimationKey) != nil {
             self.layer.removeAnimationForKey(kAnimationKey)
         }
         
-        endSplash()
+        oval.expand()
+        topPiece.openAnimation(frame.size.width, height: frame.size.height)
+        topLeftPiece.openAnimation(frame.size.width, height: frame.size.height)
+        bottomLeftPiece.openAnimation(frame.size.width, height: frame.size.height)
+        bottomPiece.openAnimation(frame.size.width, height: frame.size.height)
+        bottomRightPiece.openAnimation(frame.size.width, height: frame.size.height)
+        topRightPiece.openAnimation(frame.size.width, height: frame.size.height)
+        
+        NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(self.endSplash), userInfo: nil, repeats: false)
     }
     
     func endSplash(){

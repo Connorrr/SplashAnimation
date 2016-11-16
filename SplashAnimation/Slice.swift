@@ -113,6 +113,22 @@ class Slice: CAShapeLayer {
             let ninth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
             splines.append(ninth)
             
+            //  Open Arc
+            firstPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
+            secondPoint = getRadiusPoint(refAngle3, radius: width/4, width: width, height: height)
+            thirdPoint = CGPoint(x: width/4, y: height/2)
+            fourthPoint = secondPoint
+            let tenth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(tenth)
+            
+            //  extend arc
+            firstPoint = CGPoint(x: 0, y: height)
+            secondPoint = CGPoint(x: width/2, y: height/2)
+            thirdPoint = CGPoint(x: 0, y: height/2)
+            fourthPoint = secondPoint
+            let eleventh = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(eleventh)
+            
         case .topRight:
             
             fillColor = Colours.red.CGColor
@@ -194,6 +210,22 @@ class Slice: CAShapeLayer {
             let ninth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
             splines.append(ninth)
             
+            //  Open Arc
+            firstPoint = CGPoint(x: width/4, y: height/2)
+            secondPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
+            thirdPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
+            fourthPoint = secondPoint
+            let tenth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(tenth)
+            
+            //  extend arc
+            firstPoint = CGPoint(x: 0, y: height/2)
+            secondPoint = CGPoint(x: width/2, y: height/2)
+            thirdPoint = CGPoint(x: 0, y: 0)
+            fourthPoint = secondPoint
+            let eleventh = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(eleventh)
+            
         case .bottomRight:
             
             fillColor = Colours.mustard.CGColor
@@ -273,6 +305,22 @@ class Slice: CAShapeLayer {
             fourthPoint = centerPoint
             let ninth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
             splines.append(ninth)
+            
+            //  Open Arc
+            firstPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
+            secondPoint = CGPoint(x: width/2, y: (height/2)-(width/4))
+            thirdPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
+            fourthPoint = secondPoint
+            let tenth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(tenth)
+            
+            //  extend arc
+            firstPoint = CGPoint(x: width, y: 0)
+            secondPoint = CGPoint(x: width/2, y: height/2)
+            thirdPoint = CGPoint(x: 0, y: 0)
+            fourthPoint = secondPoint
+            let eleventh = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(eleventh)
             
         case .bottom:
             
@@ -355,6 +403,22 @@ class Slice: CAShapeLayer {
             let ninth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
             splines.append(ninth)
             
+            //  Open Arc
+            firstPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
+            secondPoint = getRadiusPoint(refAngle3, radius: width/4, width: width, height: height)
+            thirdPoint = CGPoint(x: width*3/4, y: height/2)
+            fourthPoint = secondPoint
+            let tenth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(tenth)
+            
+            //  extend arc
+            firstPoint = CGPoint(x: width, y: 0)
+            secondPoint = CGPoint(x: width/2, y: height/2)
+            thirdPoint = CGPoint(x: width, y: height/2)
+            fourthPoint = secondPoint
+            let eleventh = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(eleventh)
+            
         case .bottomLeft:
             
             fillColor = Colours.purple.CGColor
@@ -365,9 +429,9 @@ class Slice: CAShapeLayer {
             let refAngle3 = CGFloat(2*M_PI) - atan((height/2)/(width/2))/8
             
             //  Starting Points (Boarder Line)
-            var firstPoint = CGPoint(x: 0, y: height)        //  Top
-            var secondPoint = CGPoint(x: 0, y: height/2)   //  Bottom
-            var thirdPoint = CGPoint(x: 0, y: height*3/4)  //  Middle
+            var firstPoint = CGPoint(x: 0, y: height)           //  Top
+            var secondPoint = CGPoint(x: 0, y: height/2)        //  Bottom
+            var thirdPoint = CGPoint(x: 0, y: height*3/4)       //  Middle
             var fourthPoint = CGPointZero
             let first = [firstPoint, secondPoint, thirdPoint, fourthPoint]
             splines.append(first)
@@ -435,6 +499,23 @@ class Slice: CAShapeLayer {
             fourthPoint = centerPoint
             let ninth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
             splines.append(ninth)
+            
+            //  Open Arc
+            firstPoint = CGPoint(x: width*3/4, y: height/2)
+            secondPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
+            thirdPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
+            fourthPoint = secondPoint
+            let tenth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(tenth)
+            
+            //  extend arc
+            firstPoint = CGPoint(x: width, y: height/2)
+            secondPoint = CGPoint(x: width/2, y: height/2)
+            thirdPoint = CGPoint(x: width, y: height)
+            fourthPoint = secondPoint
+            let eleventh = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(eleventh)
+            
         case .topLeft:
             
             fillColor = Colours.blue.CGColor
@@ -515,6 +596,22 @@ class Slice: CAShapeLayer {
             let ninth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
             splines.append(ninth)
             
+            //  Open Arc
+            firstPoint = getRadiusPoint(refAngle, radius: width/4, width: width, height: height)
+            secondPoint = getRadiusPoint(CGFloat(M_PI*3/2), radius: width/4, width: width, height: height)
+            thirdPoint = getRadiusPoint(refAngle2, radius: width/4, width: width, height: height)
+            fourthPoint = secondPoint
+            let tenth = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(tenth)
+            
+            //  extend arc
+            firstPoint = CGPoint(x: 0, y: height)
+            secondPoint = CGPoint(x: width/2, y: height/2)
+            thirdPoint = CGPoint(x: width, y: height)
+            fourthPoint = secondPoint
+            let eleventh = [firstPoint, secondPoint, thirdPoint, fourthPoint]
+            splines.append(eleventh)
+            
         }
     }
     
@@ -580,6 +677,24 @@ class Slice: CAShapeLayer {
         return path
     }
     
+    func openArcPath(width: CGFloat, height: CGFloat) -> UIBezierPath{
+        let path = UIBezierPath()
+        path.moveToPoint(splines[9][0])
+        path.addQuadCurveToPoint(splines[9][2], controlPoint: splines[9][1])
+        path.addLineToPoint(splines[9][3])
+        path.closePath()
+        return path
+    }
+    
+    func extendArcToBoundaries(width: CGFloat, height: CGFloat) -> UIBezierPath{
+        let path = UIBezierPath()
+        path.moveToPoint(splines[10][0])
+        path.addLineToPoint(splines[10][2])
+        path.addLineToPoint(splines[10][1])
+        path.closePath()
+        return path
+    }
+    
     func animate(position: positions, width: CGFloat, height: CGFloat){
         initPoints(position, width: width, height: height)
         
@@ -635,6 +750,38 @@ class Slice: CAShapeLayer {
         shrinkAnimationGroup.fillMode = kCAFillModeForwards
         shrinkAnimationGroup.removedOnCompletion = false
         addAnimation(shrinkAnimationGroup, forKey: nil)
+    }
+    
+    func openAnimation(width: CGFloat, height: CGFloat){
+        let closedPath = sixthPath(width, height: height).CGPath
+        let openPath = openArcPath(width, height: height).CGPath
+        let extendedPath = extendArcToBoundaries(width, height: height).CGPath
+        
+        let d = 0.3
+        let d2 = 0.3
+        
+        let openAnimation = CABasicAnimation(keyPath: "path")
+        openAnimation.fromValue = closedPath
+        openAnimation.toValue = extendedPath
+        openAnimation.beginTime = CACurrentMediaTime()
+        openAnimation.duration = d
+        openAnimation.fillMode = kCAFillModeForwards
+        openAnimation.removedOnCompletion = false
+        
+        let extendAnimation = CABasicAnimation(keyPath: "path")
+        extendAnimation.fromValue = openPath
+        extendAnimation.toValue = extendedPath
+        extendAnimation.beginTime = openAnimation.beginTime + openAnimation.duration
+        extendAnimation.duration = d2
+        
+        let extendAnimationGroup = CAAnimationGroup()
+        extendAnimationGroup.animations = [openAnimation, extendAnimation]
+        extendAnimationGroup.duration = extendAnimation.beginTime + extendAnimation.duration
+        extendAnimationGroup.fillMode = kCAFillModeForwards
+        extendAnimationGroup.removedOnCompletion = false
+        
+        addAnimation(openAnimation, forKey: nil)
+        
     }
 
 }
