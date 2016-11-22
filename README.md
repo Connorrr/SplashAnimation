@@ -11,10 +11,7 @@ and attaches it to the point in the center of the frame.  All six slices create 
 rotated from a holderview.
 
 TODO
-  - Clean up the code in Slice class.
   - Improve the animated Bezier curves in the "Iris" animation.
   - Lock to portrate mode 
-  
-  
 
 ![My Image](http://globalbusinessnews.com.au/AnimatedSplashScreen.gif)
