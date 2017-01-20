@@ -12,6 +12,5 @@ rotated from a holderview.
 
 TODO
   - Improve the animated Bezier curves in the "Iris" animation.
-  - Lock to portrate mode 
 
 ![My Image](http://globalbusinessnews.com.au/AnimatedSplashScreen.gif)
